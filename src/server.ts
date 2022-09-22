@@ -4,6 +4,8 @@ import { User } from './modules/user'
 const app = express()
 const user = new User
 
+app.use(express.json());
+
 app.get("/", (req, res)=>{
 
    const listof = user.getUsers()
