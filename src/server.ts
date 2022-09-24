@@ -1,28 +1,12 @@
-import express, { json } from 'express'
-import { User } from './modules/user'
+import express from 'express'
+
+import { router } from './routes';
 
 const app = express()
-const user = new User
 
 app.use(express.json());
 
-app.get("/", (req, res)=>{
-
-   const listof = user.getUsers()
-
-   res.json(listof)
-})
-
-
-app.post("/lero", (req, res)=>{
-
-    const name = req.body.name
-
-    user.create(name)
-
-    res.send(201).json("Created")
-
-})
+app.use(router);
 
 app.listen((3000), ()=>{
     console.log("Server rodando")
