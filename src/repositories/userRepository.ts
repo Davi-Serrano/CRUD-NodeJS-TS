@@ -1,25 +1,8 @@
 import { User } from "../model/user";
+import { IUserReposioty, UserDTO, UserUpdateNameDTO } from "./IUserRepository";
 
-interface UserDTO{
-    name: string,
-    password: string;
-}
 
-interface IUser{
-    create({name, password}: UserDTO): void;
-    getUsers(): any;
-    getUserByName(name:string): UserDTO;
-    updateName({name, actualName}: UserUpdateNameDTO): void
-    getUserByName(name:string): void;
-
-}
-
-interface UserUpdateNameDTO{
-    name: string;
-    actualName: string;
-}
-
-class Users implements IUser{
+class UsersRepository implements IUserReposioty{
     private repository: any
 
     constructor(){
@@ -57,11 +40,14 @@ class Users implements IUser{
     deleteUsers(name: string){
         const indexOfuserWillBeDeleted = this.repository.findIndex( (user: UserDTO) => user.name === name)
 
+        if(indexOfuserWillBeDeleted === 0){
+         return this.repository.splice(indexOfuserWillBeDeleted)
+        }
+
         this.repository.splice(indexOfuserWillBeDeleted, 0)
 
-        console.log(this.repository)
     }
 
 }
 
-export  { Users };
+export  { UsersRepository };

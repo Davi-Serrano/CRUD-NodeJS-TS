@@ -1,24 +1,26 @@
 import { Router } from "express"
-import { Users } from "../modules/user";
+import { UsersRepository } from "../repositories/userRepository";
+
+import { CreateUserService } from "../services/CreateUserService";
 
 const usersRoutes = Router()
-const user = new Users()
+const userReposiotry = new UsersRepository()
 
 
 usersRoutes.get("/", (req, res)=>{
 
-    const listof = user.getUsers()
+    const listof = userReposiotry.getUsers()
  
-    res.sendStatus(201).json(listof)
+    res.json(listof)
  });
  
  usersRoutes.get("/user", (req, res)=>{
  
      const { name } = req.body.user
  
-    const userFind = user.getUserByName(name)
+    const userFind = userReposiotry.getUserByName(name)
  
-     res.sendStatus(201).json(userFind)
+     res.json(userFind)
  
  });
  
@@ -26,20 +28,21 @@ usersRoutes.get("/", (req, res)=>{
  usersRoutes.post("/lero", (req, res)=>{
  
      const { name, password} = req.body.user
- 
-     user.create({name, password})
- 
-     res.sendStatus(201).json("User Created")
- 
+    
+     const createUserServie = new CreateUserService(userReposiotry)
+
+     createUserServie.execute({name, password})
+
+     res.send("Created")
  });
 
  usersRoutes.put("/upd", (req, res)=>{
 
     const { name, actualName } = req.body.user
 
-    user.updateName({name, actualName})
+    userReposiotry.updateName({name, actualName})
 
-    res.sendStatus(201).json("Name Updated")
+    res.json("Name Updated")
 
  })
  
@@ -48,7 +51,7 @@ usersRoutes.get("/", (req, res)=>{
  
      const { name } = req.body.user
  
-     user.deleteUsers(name)
+     userReposiotry.deleteUsers(name)
  
      res.json("Deleted")
  
