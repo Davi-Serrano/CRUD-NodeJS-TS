@@ -1,4 +1,4 @@
-import { User } from "./model/user";
+import { User } from "../model/user";
 
 interface UserDTO{
     name: string,
@@ -7,6 +7,11 @@ interface UserDTO{
 
 interface IUser{
     create({name, password}: UserDTO): void;
+    getUsers(): any;
+    getUserByName(name:string): UserDTO;
+    updateName({name, actualName}: UserUpdateNameDTO): void
+    getUserByName(name:string): void;
+
 }
 
 interface UserUpdateNameDTO{

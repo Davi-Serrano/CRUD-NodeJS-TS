@@ -9,7 +9,7 @@ usersRoutes.get("/", (req, res)=>{
 
     const listof = user.getUsers()
  
-    res.json(listof)
+    res.sendStatus(201).json(listof)
  });
  
  usersRoutes.get("/user", (req, res)=>{
@@ -18,7 +18,7 @@ usersRoutes.get("/", (req, res)=>{
  
     const userFind = user.getUserByName(name)
  
-     res.json(userFind)
+     res.sendStatus(201).json(userFind)
  
  });
  
@@ -29,7 +29,7 @@ usersRoutes.get("/", (req, res)=>{
  
      user.create({name, password})
  
-     res.json("Created")
+     res.sendStatus(201).json("User Created")
  
  });
 
@@ -39,7 +39,7 @@ usersRoutes.get("/", (req, res)=>{
 
     user.updateName({name, actualName})
 
-    res.json("Name Changed")
+    res.sendStatus(201).json("Name Updated")
 
  })
  
