@@ -1,60 +1,50 @@
 import { Router } from "express"
-import { UsersRepository } from "../repositories/userRepository";
+import { UsersRepository } from "../modules/user/repositories/userRepository";
+import { createUserController } from "../modules/user/useCases/createUser";
+import { listAllUsersController } from "../modules/user/useCases/listUsers";
 
-import { CreateUserService } from "../services/CreateUserService";
 
 const usersRoutes = Router()
-const userReposiotry = new UsersRepository()
 
 
 usersRoutes.get("/", (req, res)=>{
-
-    const listof = userReposiotry.getUsers()
- 
-    res.json(listof)
+    return listAllUsersController.handle(req, res);
  });
- 
- usersRoutes.get("/user", (req, res)=>{
- 
-     const { name } = req.body.user
- 
-    const userFind = userReposiotry.getUserByName(name)
- 
-     res.json(userFind)
- 
- });
- 
  
  usersRoutes.post("/lero", (req, res)=>{
- 
-     const { name, password} = req.body.user
-    
-     const createUserServie = new CreateUserService(userReposiotry)
-
-     createUserServie.execute({name, password})
-
-     res.send("Created")
+    return createUserController.handle(req, res);
  });
 
- usersRoutes.put("/upd", (req, res)=>{
+//  usersRoutes.get("/user", (req, res)=>{
+ 
+//     const { name } = req.body.user
+ 
+//     const userFind = userReposiotry.getUserByName(name)
+ 
+//     res.json(userFind)
+ 
+//  });
+ 
 
-    const { name, actualName } = req.body.user
+//  usersRoutes.put("/upd", (req, res)=>{
 
-    userReposiotry.updateName({name, actualName})
+//     const { name, actualName } = req.body.user
 
-    res.json("Name Updated")
+//     userReposiotry.updateName({name, actualName})
 
- })
+//     res.json("Name Updated")
+
+//  })
  
  
- usersRoutes.delete("/del", (req, res)=>{
+//  usersRoutes.delete("/del", (req, res)=>{
  
-     const { name } = req.body.user
+//      const { name } = req.body.user
  
-     userReposiotry.deleteUsers(name)
+//      userReposiotry.deleteUsers(name)
  
-     res.json("Deleted")
+//      res.json("Deleted")
  
- });
+//  });
 
  export { usersRoutes };

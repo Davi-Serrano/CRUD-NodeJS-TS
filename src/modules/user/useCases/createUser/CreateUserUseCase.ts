@@ -1,12 +1,11 @@
-import { IUserReposioty } from "../repositories/IUserRepository";
-import { UsersRepository } from "../repositories/userRepository";
+import { IUserReposioty } from "../../repositories/IUserRepository";
 
 interface IRequest {
     name: string;
     password: string;
 }
 
-class CreateUserService{
+class CreateUserUseCase{
     constructor(private userReposiotry: IUserReposioty){}
 
     execute({ name, password}: IRequest): void{
@@ -19,11 +18,6 @@ class CreateUserService{
 
         this.userReposiotry.create({name, password});
     }
-
-
 }
 
-
-
-
-export { CreateUserService };
+export { CreateUserUseCase };

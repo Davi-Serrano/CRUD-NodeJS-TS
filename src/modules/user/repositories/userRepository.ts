@@ -1,12 +1,29 @@
 import { User } from "../model/user";
 import { IUserReposioty, UserDTO, UserUpdateNameDTO } from "./IUserRepository";
 
+//singleton
+
+
+
+
+
 
 class UsersRepository implements IUserReposioty{
     private repository: any
 
-    constructor(){
+    private static INSTANCE: UsersRepository;
+
+    private constructor(){
         this.repository = [];
+    }
+
+    public static getInstance(): UsersRepository{
+
+        if(!UsersRepository.INSTANCE){
+            UsersRepository.INSTANCE = new UsersRepository()
+        }
+
+        return UsersRepository.INSTANCE;
     }
 
     create({name, password}: UserDTO): void{
