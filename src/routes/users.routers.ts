@@ -1,7 +1,9 @@
 import { Router } from "express"
-import { UsersRepository } from "../modules/user/repositories/userRepository";
+import { UsersRepository } from "../modules/user/repositories/implemantations/userRepository";
 import { createUserController } from "../modules/user/useCases/createUser";
-import { listAllUsersController } from "../modules/user/useCases/listUsers";
+import { deleteUserController } from "../modules/user/useCases/deleteUser";
+import { listAllUsersController } from "../modules/user/useCases/readUsers";
+import { updateUserController } from "../modules/user/useCases/updateUser";
 
 
 const usersRoutes = Router()
@@ -26,25 +28,13 @@ usersRoutes.get("/", (req, res)=>{
 //  });
  
 
-//  usersRoutes.put("/upd", (req, res)=>{
-
-//     const { name, actualName } = req.body.user
-
-//     userReposiotry.updateName({name, actualName})
-
-//     res.json("Name Updated")
-
-//  })
+ usersRoutes.put("/upd", (req, res)=>{
+   return updateUserController.handle(req, res)
+ })
  
  
-//  usersRoutes.delete("/del", (req, res)=>{
- 
-//      const { name } = req.body.user
- 
-//      userReposiotry.deleteUsers(name)
- 
-//      res.json("Deleted")
- 
-//  });
+ usersRoutes.delete("/del", (req, res)=>{
+   return deleteUserController.handle(req, res)
+ });
 
  export { usersRoutes };

@@ -1,5 +1,5 @@
-import { User } from "../model/user";
-import { IUserReposioty, UserDTO, UserUpdateNameDTO } from "./IUserRepository";
+import { User } from "../../model/user";
+import { IUserReposioty, UserDTO, UserUpdateNameDTO } from "../IUserRepository";
 
 //singleton
 
@@ -54,14 +54,14 @@ class UsersRepository implements IUserReposioty{
 
     }
 
-    deleteUsers(name: string){
+    deleteUser(name: string){
         const indexOfuserWillBeDeleted = this.repository.findIndex( (user: UserDTO) => user.name === name)
-
-        if(indexOfuserWillBeDeleted === 0){
-         return this.repository.splice(indexOfuserWillBeDeleted)
-        }
-
-        this.repository.splice(indexOfuserWillBeDeleted, 0)
+   
+           if(indexOfuserWillBeDeleted === -1){
+               throw new Error("User dont exists")
+           }
+   
+           this.repository.splice(indexOfuserWillBeDeleted, 1)
 
     }
 
