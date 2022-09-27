@@ -19,12 +19,12 @@ usersRoutes.get("/", (req, res)=>{
  });
  
 
- usersRoutes.put("/upd", (req, res)=>{
+ usersRoutes.patch("/", (req, res)=>{
    return updateUserController.handle(req, res)
  })
  
  
- usersRoutes.delete("/del", (req, res)=>{
+ usersRoutes.delete("/", (req, res)=>{
    return deleteUserController.handle(req, res)
  });
 
