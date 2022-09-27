@@ -14,23 +14,8 @@ usersRoutes.get("/", (req, res)=>{
     return listAllUsersController.handle(req, res);
  });
  
- usersRoutes.post("/lero", (req, res)=>{
+ usersRoutes.post("/", (req, res)=>{
     return createUserController.handle(req, res);
- });
-
-  usersRoutes.post("/user", async (req, res)=>{
- 
-    const user = req.body.user
- 
-    try{
-      await UserModel.create(user)
-
-      res.sendStatus(201)
-
-    } catch(errp){
-      console.log(errp)
-    }
- 
  });
  
 

@@ -6,10 +6,16 @@ class CreateUserController {
 
     handle(req: Request, res: Response){
         const { name, password } = req.body.user
-    
-        this.createUserUseCase.execute({name, password})
+        
+        try{
+            this.createUserUseCase.execute({name, password})
+            res.sendStatus(201)
+        }
+        catch(err){
+            console.log(err)
+            return res.sendStatus(400)
+        }
    
-        res.sendStatus(201)
     }
 }
 

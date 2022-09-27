@@ -5,11 +5,16 @@ class ListUsersController {
     
     constructor(private listAllUsersUseCase: ListUsersUseCase){}
     
-    handle(req: Request, res: Response){
+    async handle(req: Request, res: Response){
 
-       const all = this.listAllUsersUseCase.execute();
-
-       return res.json(all)
+        try{        
+            const allUsers = await this.listAllUsersUseCase.execute();
+            
+            return res.json(allUsers)
+        }catch(err){
+            console.log(err);
+            return res.sendStatus(400)
+        }
     }
 }
 

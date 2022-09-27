@@ -4,12 +4,12 @@ import { UpdateUserUseCase } from "./updateUserUseCase";
 class UpdateUserController {
     constructor(private updateUserUseCase: UpdateUserUseCase){}
 
-    handle(req: Request, res: Response){
+    async handle(req: Request, res: Response){
         const { name, actualName } = req.body.user
 
-        this.updateUserUseCase.execute({name, actualName})
+        await this.updateUserUseCase.execute({name, actualName})
 
-        res.sendStatus(201)
+        return res.sendStatus(201)
     }
 }
 

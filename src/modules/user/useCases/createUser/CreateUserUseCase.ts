@@ -1,3 +1,4 @@
+import { IMongoDBRepository } from "../../repositories/IMongoDBRepository";
 import { IUserReposioty } from "../../repositories/IUserRepository";
 
 interface IRequest {
@@ -6,15 +7,9 @@ interface IRequest {
 }
 
 class CreateUserUseCase{
-    constructor(private userReposiotry: IUserReposioty){}
+    constructor(private userReposiotry: IMongoDBRepository){}
 
     execute({ name, password}: IRequest): void{
-
-        const userAlreadyExists = this.userReposiotry.getUserByName(name)
-
-        if(userAlreadyExists){
-            throw new Error("User already Exists");
-        }
 
         this.userReposiotry.create({name, password});
     }

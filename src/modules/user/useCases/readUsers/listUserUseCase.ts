@@ -1,13 +1,15 @@
 import { User } from "../../model/user";
+import { IMongoDBRepository } from "../../repositories/IMongoDBRepository";
 import { IUserReposioty } from "../../repositories/IUserRepository";
 
 class ListUsersUseCase {
-    constructor(private userRepository: IUserReposioty ){}
+    constructor(private userRepository: IMongoDBRepository ){}
 
-    execute(): User[]{
-        const all = this.userRepository.getUsers()
+    async execute(): Promise<User[]>{
+        const allUsers = await this.userRepository.getUsers()
 
-        return all
+
+        return allUsers
     }
 }
 

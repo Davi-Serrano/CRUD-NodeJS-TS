@@ -1,18 +1,11 @@
-import { UsersRepository } from "../../repositories/implemantations/userRepository";
+import { IMongoDBRepository } from "../../repositories/IMongoDBRepository";
 import { UserUpdateNameDTO } from "../../repositories/IUserRepository";
 
 class UpdateUserUseCase {
-    constructor(private usersReposioty: UsersRepository){}
+    constructor(private usersReposioty: IMongoDBRepository){}
 
-    execute({name, actualName}: UserUpdateNameDTO){
-
-        const nameWillBeChanged = this.usersReposioty.getUserByName(name)
-
-        if(!nameWillBeChanged){
-            throw new Error("User Dont Exists")
-        }
-
-        this.usersReposioty.updateName({name, actualName})
+    async execute({name, actualName}: UserUpdateNameDTO){
+        await this.usersReposioty.updateName({name, actualName})
     }
 }
 

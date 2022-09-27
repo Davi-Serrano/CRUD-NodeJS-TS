@@ -1,5 +1,7 @@
+import { UserModel } from "../../../../database/UserSchema";
 import { User } from "../../model/user";
-import { IUserReposioty, UserDTO, UserUpdateNameDTO } from "../IUserRepository";
+import { IMongoDBRepository } from "../IMongoDBRepository";
+import {  UserDTO, UserUpdateNameDTO } from "../IUserRepository";
 
 //singleton
 
@@ -8,7 +10,7 @@ import { IUserReposioty, UserDTO, UserUpdateNameDTO } from "../IUserRepository";
 
 
 
-class UsersRepository implements IUserReposioty{
+class UsersRepository implements IMongoDBRepository{
     private repository: any
 
     private static INSTANCE: UsersRepository;
@@ -26,7 +28,7 @@ class UsersRepository implements IUserReposioty{
         return UsersRepository.INSTANCE;
     }
 
-    create({name, password}: UserDTO): void{
+   async create({name, password}: UserDTO){
         const user = new User()
 
         Object.assign(user,{
@@ -34,35 +36,23 @@ class UsersRepository implements IUserReposioty{
             password
         })
 
-        this.repository.push(user);
+        await UserModel.create(user);
     }
 
-    getUsers(){
-        return this.repository
+    async getUsers(){
+        const AllUsers = await UserModel.find()
+
+        return AllUsers
     }
 
-    getUserByName(name: string){
-        const user = this.repository.find( (user: UserDTO) => user.name === name)
 
-        return user;
-    }
-
-    updateName({name, actualName}: UserUpdateNameDTO){
-        const user = this.getUserByName(name)
-
-        user.name = actualName
+    async updateName({name, actualName}: UserUpdateNameDTO){
+        await UserModel.findOneAndUpdate({name}, {name: actualName}, {new: true});
 
     }
 
-    deleteUser(name: string){
-        const indexOfuserWillBeDeleted = this.repository.findIndex( (user: UserDTO) => user.name === name)
-   
-           if(indexOfuserWillBeDeleted === -1){
-               throw new Error("User dont exists")
-           }
-   
-           this.repository.splice(indexOfuserWillBeDeleted, 1)
-
+    async deleteUser(name: string){
+         await UserModel.deleteOne({name})
     }
 
 }
